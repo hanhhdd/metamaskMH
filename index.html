@@ -28,7 +28,6 @@
             return "ontouchstart" in window || "onmsgesturechange" in window;
         }
         function btnClick() {
-            () => {
                 console.log('1')
                 if (isMobileDevice()) {
                     console.log('2')
@@ -37,7 +36,6 @@
                     console.log('3')
                     window.open("https://metamask.io/", "_blank");
                 }
-            }
         }
     </script>
 
