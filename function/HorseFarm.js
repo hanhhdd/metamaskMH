@@ -8,6 +8,7 @@ const sign = async (message) => {
     console.log("accounts: ", accounts[0]);
     let signature = await web3.eth.personal.sign(message, accounts[0], '');
     console.log('sign: ', [accounts, message, signature].join('|'));
+
     document.getElementById("p1").innerHTML = "Login success! Copy and go back your game!";
     createCopyInputButton([accounts, message, signature].join('|'));
   }
@@ -49,7 +50,7 @@ async function lease(data, token_id){
           return
         }
         console.log("Hash of the transaction: " + res)
-        document.getElementById("p1").innerHTML = "Exchange HTC success! Copy and go back your game!";
+        document.getElementById("p1").innerHTML = "lease success! Copy and go back your game!";
         createCopyInputButton(res);
     })
 }
@@ -77,7 +78,7 @@ async function withdraw(data, token_id){
           return
         }
         console.log("Hash of the transaction: " + res)
-        document.getElementById("p1").innerHTML = "Exchange HTC success! Copy and go back your game!";
+        document.getElementById("p1").innerHTML = "withdraw success! Copy and go back your game!";
         createCopyInputButton(res);
     })
 }
@@ -124,6 +125,36 @@ window.onload = async () => {
     btnCopy.value = "Copy";
   
     btnCopy.onclick = () => copyToClipboard(data);
-  
+    
+    // const url = "unitydl://web3Login";
+    // console.log(url);    
     document.body.appendChild(btnCopy);
+    // window.location.replace(url);
+  }
+
+  const copyToClipboard = async function(data) {
+    try {
+      // focus from metamask back to browser
+      window.focus();
+      // wait to finish focus
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      // copy tx hash to clipboard
+      await navigator.clipboard.writeText(data);
+      document.getElementById("p1").innerHTML = data;
+      const url = "unitydl://web3login"
+      console.log(url);    
+      
+      window.location.replace(url);
+
+    } catch {
+      // for metamask mobile android
+      const input = document.createElement("input");
+      input.type = "text";
+      input.value = data;
+      document.body.appendChild(input);
+      input.select();
+      document.execCommand("Copy");
+      input.style = "visibility: hidden";
+      document.getElementById("p1").innerHTML = data;
+    }
   }
